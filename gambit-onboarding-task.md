@@ -159,6 +159,7 @@ Read in this order:
 - **Start in plan mode** for anything non-trivial — read-only until you approve direction
 - **Push back** — the first AI answer is a draft, not a deliverable
 - **Write decisions down** — context resets between sessions; plans belong in files, not chat history
+- **End every working session with a handoff file** — see `docs/end-of-session.md` in Delivery; this is how you pause mid-task and pick up with another model or agent later
 - **Use a Claude Project** for the onboarding task — upload this document and any reference material you gather
 
 ---
@@ -197,7 +198,8 @@ Read in this order:
 | AI Plan | Approve or correct | Propose architecture, stack, file layout, deployment approach |
 | AI Execute | Steer on edge cases (multi-team trades, illegal trades, chat/GUI desync) | Build the chat UI, state sync, and deployment config |
 | Human Guidance | Hold the quality bar — "show money math in chat", "don't hide illegal verdicts" | Iterate |
-| AI PR | Review | Open PR with Human Plan + AI Plan in the description |
+| *(session handoff)* | When pausing or switching agents: write `docs/end-of-session.md` | Use the handoff file to resume without re-explaining everything |
+| AI PR | Review | Open PR with Human Plan + AI Plan + end-of-session in the description |
 | Human Review & QA | Test the deployed app; review the PR diff | Address feedback |
 | AI Deploy | Approve go-live | Deploy to your chosen free host |
 
@@ -239,8 +241,59 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 |----------|----------|---------|
 | **Human Plan** | `docs/human-plan.md` | Your goal, scope, acceptance criteria, UX principles — written *before* heavy AI execution |
 | **AI Plan** | `docs/ai-plan.md` | The implementation plan you approved (stack, files, risks, test approach) |
+| **End of session** | `docs/end-of-session.md` | Handoff snapshot of the human ↔ AI working session — so another agent/model can pick up where you left off |
 | **Application code** | project root | The chat app source |
 | **README** | `README.md` | How to run locally, how you deployed, architecture overview, link to live demo |
+
+### `docs/end-of-session.md` — session handoff (required)
+
+Chat context disappears when a session ends. A new agent (or a different model) starts cold unless you **write the working session down**.
+
+This file is **not** a full chat transcript. It is a curated handoff — the minimum context needed to continue the task without archaeology. Update it whenever you pause meaningful work or finish a session; the final version is part of delivery.
+
+Include:
+
+- **Goal** — one sentence; link to Human Plan
+- **Current status** — what's done, what's in progress, what's blocked
+- **Key decisions** — choices you and the AI made during the session (and *why*)
+- **Human guidance given** — corrections, constraints, quality-bar calls ("not that", "keep X", "show Y in chat")
+- **Open questions** — unresolved design or implementation questions for the next session
+- **Where to continue** — files, branches, commands, deployed URL if any
+- **Do not regress** — things the next agent must not undo or reinterpret
+
+Think of it as **saving a task mid-flight** — the same way HAPI Flow treats plans as files, not chat memory.
+
+**Template:**
+
+```markdown
+# End of session — <date>
+
+## Goal
+<link to human-plan.md — one sentence>
+
+## Status
+- Done: …
+- In progress: …
+- Blocked: …
+
+## Key decisions (this session)
+- …
+
+## Human guidance given
+- …
+
+## Open questions
+- …
+
+## Continue from here
+- Branch: …
+- Files: …
+- Commands: …
+- Demo URL: …
+
+## Do not regress
+- …
+```
 
 ### PR description template
 
@@ -254,6 +307,9 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 ## AI Plan summary
 <2-3 sentences>
 
+## Session handoff
+Point to `docs/end-of-session.md` — what state you left the work in
+
 ## What I learned about HAPI Flow
 <short reflection — what worked, what you'd do differently>
 
@@ -263,7 +319,7 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 
 ### Acceptance criteria
 
-- [ ] **Human Plan** and **AI Plan** committed as separate docs (shows you ran stages 3–4, not just vibe-coded)
+- [ ] **Human Plan**, **AI Plan**, and **`docs/end-of-session.md`** committed as separate docs (shows you ran the planning stages and saved session context — not just vibe-coded)
 - [ ] **README** explains the project clearly enough for a stranger to run it
 - [ ] **Deployed URL** works — chat → state → GUI mirror → verdict in both places
 - [ ] **Design notes** in Human Plan or README cover:

@@ -57,8 +57,9 @@ When you complete the task, submit:
 2. **Pull request** to this repo with:
    - `docs/human-plan.md` — your plan *before* heavy AI execution
    - `docs/ai-plan.md` — the implementation plan you approved
+   - `docs/end-of-session.md` — handoff snapshot of the human ↔ AI working session (for resuming with another agent/model)
    - Application source code
-   - `README.md` in your submission folder explaining how to run and deploy
+   - `README.md` explaining how to run and deploy
 
 See **Delivery** in [`gambit-onboarding-task.md`](./gambit-onboarding-task.md) for full acceptance criteria.
 
