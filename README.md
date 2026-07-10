@@ -11,7 +11,8 @@ Built for candidates and collaborators outside the Gambit monorepo. Everything y
 | 1 | [`gambit-onboarding-task.md`](./gambit-onboarding-task.md) | **Main brief** — HAPI vision, learning path, task, delivery requirements |
 | 2 | [`git-workshop.html`](./git-workshop.html) | Git workshop slides — open in a browser |
 | 3 | [`gambit-claude-guide.md`](./gambit-claude-guide.md) | Claude + Git learning guide |
-| 4 | [`claude-git-workshop/`](./claude-git-workshop/) | Workshop exercises, handouts, sample repos |
+| 4 | [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) | bball-GM API + GUI reference — read before Part 3 |
+| 5 | [`claude-git-workshop/`](./claude-git-workshop/) | Workshop exercises, handouts, sample repos |
 
 Read `gambit-onboarding-task.md` top to bottom. Use the other files during **Part 2** of that document.
 
@@ -35,6 +36,7 @@ python3 -m http.server 8080
 gambit-hapi-onboarding/
 ├── README.md                    ← you are here
 ├── gambit-onboarding-task.md    ← full onboarding brief (HAPI + task + delivery)
+├── bball-gm-engine-teardown.md  ← bball-GM API + GUI reference for the exercise
 ├── git-workshop.html            ← Git + AI workshop presentation
 ├── gambit-claude-guide.md       ← Claude Code + Git primer
 └── claude-git-workshop/         ← workshop materials (handouts, sample apps, exercises)

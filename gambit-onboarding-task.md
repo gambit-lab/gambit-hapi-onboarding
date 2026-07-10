@@ -173,9 +173,7 @@ Read in this order:
 
 **Use the live site** — build a few trades yourself. The exercise is about the *interaction model*, not re-deriving trade rules.
 
-Optional background reading (public, no account required):
-- Use bball-GM's GUI hands-on at http://bball-gm.com
-- Their validation API is a plain `POST` with JSON — you can inspect network requests in browser devtools while building trades
+**Reference:** [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) — how bball-GM's API and GUI work (request/response schema, what the verdict UI shows). Read this before designing your chat interface.
 
 ### The exercise
 
@@ -207,6 +205,13 @@ Optional background reading (public, no account required):
 
 - Building a trade-legality engine from scratch (use bball-GM's public API or mock validation for the prototype — this is the **interaction layer**)
 - Production-grade CBA rule coverage
+
+### Reference materials
+
+| Resource | Purpose |
+|----------|---------|
+| [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) | bball-GM API + GUI reference for the exercise |
+| [bball-GM.com](http://bball-gm.com) | Hands-on GUI experience |
 
 ---
 
