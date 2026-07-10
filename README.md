@@ -58,6 +58,7 @@ When you complete the task, submit:
    - `docs/human-plan.md` — your plan *before* heavy AI execution
    - `docs/ai-plan.md` — the implementation plan you approved
    - `docs/end-of-session.md` — handoff snapshot of the human ↔ AI working session (for resuming with another agent/model)
+   - `docs/qa-plan.md` — how to verify the deployed app (manual + optional browser-agent automation)
    - Application source code
    - `README.md` explaining how to run and deploy
 

@@ -188,19 +188,36 @@ Read in this order:
 
 **North star:** the mouse becomes optional. The GUI stays a live visual mirror; conversation is primary.
 
+### What to think about (Human Thinking / Human Plan)
+
+This problem is **effectively endless** — full chat architecture, every edge case, production-grade explainability, automated QA at scale. **Don't try to boil the ocean.**
+
+Choose a **chat MVP that feels interesting to you** — one slice where you can show the **main concept** clearly. In your Human Plan, name what you're deliberately *not* building and why.
+
+At minimum, think through:
+
+| Lens | Questions to answer in your plan |
+|------|-------------------------------|
+| **Chat architecture** | How does a message become structured trade state? One LLM call per turn, tool use, state machine, something else? |
+| **Features** | What's in your MVP vs later? (e.g. two-team only, no picks, sign-and-trade out of scope) |
+| **Explainability** | When the user asks "why is this illegal?" — what do they see? Can they follow the reasoning without reading raw API JSON? |
+| **Traceability** | Can you reconstruct *what changed* after each chat turn? Is there a visible trail from "user said X" → "state updated Y" → "verdict Z"? |
+
+You don't need to solve all of this in code — but your design write-up and demo should make your choices **legible**. Gambit cares about products users can **trust and audit**, not black-box chat.
+
 ### How to run it (HAPI Flow)
 
 | Stage | You | AI |
 |-------|-----|-----|
 | Idea / Task | Accept this brief | — |
-| Human Thinking | Decide what "done" looks like; note 3 UX principles | Ask up to 5 clarifying questions before designing |
+| Human Thinking | Scope your chat MVP; note architecture, explainability, traceability | Ask up to 5 clarifying questions before designing |
 | Human Plan | Write your plan: scope, goal, acceptance criteria, out of scope | — |
 | AI Plan | Approve or correct | Propose architecture, stack, file layout, deployment approach |
 | AI Execute | Steer on edge cases (multi-team trades, illegal trades, chat/GUI desync) | Build the chat UI, state sync, and deployment config |
 | Human Guidance | Hold the quality bar — "show money math in chat", "don't hide illegal verdicts" | Iterate |
 | *(session handoff)* | When pausing or switching agents: write `docs/end-of-session.md` | Use the handoff file to resume without re-explaining everything |
 | AI PR | Review | Open PR with Human Plan + AI Plan + end-of-session in the description |
-| Human Review & QA | Test the deployed app; review the PR diff | Address feedback |
+| Human Review & QA | Run your QA plan; test the deployed app; review the PR diff | Address feedback |
 | AI Deploy | Approve go-live | Deploy to your chosen free host |
 
 ### Out of scope
@@ -242,6 +259,7 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 | **Human Plan** | `docs/human-plan.md` | Your goal, scope, acceptance criteria, UX principles — written *before* heavy AI execution |
 | **AI Plan** | `docs/ai-plan.md` | The implementation plan you approved (stack, files, risks, test approach) |
 | **End of session** | `docs/end-of-session.md` | Handoff snapshot of the human ↔ AI working session — so another agent/model can pick up where you left off |
+| **QA plan** | `docs/qa-plan.md` | How you would verify the app works — manual checks and/or automated browser-agent tests |
 | **Application code** | project root | The chat app source |
 | **README** | `README.md` | How to run locally, how you deployed, architecture overview, link to live demo |
 
@@ -295,6 +313,28 @@ Think of it as **saving a task mid-flight** — the same way HAPI Flow treats pl
 - …
 ```
 
+### `docs/qa-plan.md` — how you would QA this (required)
+
+A **QA plan** is a written checklist of how to verify the product actually works in a running environment — not unit tests in isolation, but **does the deployed chat MVP behave correctly end-to-end?**
+
+At Gambit, QA plans gate shipping: humans own the quality bar; the plan says what "pass" looks like before you merge.
+
+Your plan should cover **both** (you can lean harder on one):
+
+| Approach | What it means | Example for this task |
+|----------|---------------|----------------------|
+| **Manual QA** | A human walks through the live demo with a checklist | "Type 'Boston gets Tatum for Butler' → GUI shows both teams → verdict appears in chat and panel → illegal trade shows violation text, not silent failure" |
+| **Automated QA (browser agent)** | A script or AI agent drives the browser and asserts outcomes | Playwright/Cypress test, or an agent that opens your deployed URL, sends chat messages, and checks DOM/state; note what you'd automate vs what still needs human judgment |
+
+Include in `docs/qa-plan.md`:
+
+- **Scope** — what your MVP claims to support (tie to Human Plan)
+- **Manual checks** — numbered steps a reviewer can run on your live URL; expected result for each
+- **Automated checks** (if any) — what you'd run in CI or locally; commands or pseudocode is fine
+- **Known gaps** — what you are *not* testing and why (honest scoping)
+
+You do **not** need a full CI pipeline — but you **do** need a credible plan. Bonus: ship one automated check that proves chat → state → GUI sync on a happy path.
+
 ### PR description template
 
 ```markdown
@@ -310,6 +350,9 @@ Think of it as **saving a task mid-flight** — the same way HAPI Flow treats pl
 ## Session handoff
 Point to `docs/end-of-session.md` — what state you left the work in
 
+## QA approach
+<manual vs automated — link to docs/qa-plan.md>
+
 ## What I learned about HAPI Flow
 <short reflection — what worked, what you'd do differently>
 
@@ -319,14 +362,18 @@ Point to `docs/end-of-session.md` — what state you left the work in
 
 ### Acceptance criteria
 
-- [ ] **Human Plan**, **AI Plan**, and **`docs/end-of-session.md`** committed as separate docs (shows you ran the planning stages and saved session context — not just vibe-coded)
+- [ ] **Human Plan**, **AI Plan**, **`docs/end-of-session.md`**, and **`docs/qa-plan.md`** committed as separate docs
 - [ ] **README** explains the project clearly enough for a stranger to run it
 - [ ] **Deployed URL** works — chat → state → GUI mirror → verdict in both places
 - [ ] **Design notes** in Human Plan or README cover:
   - Interaction model — what a chat turn does to state
   - Sync — how chat-state and GUI-state stay aligned
   - Output presentation — with **concrete examples** of a verdict rendered in chat
+  - **Explainability & traceability** — how users see *why* and *what changed*
+  - **MVP scope** — what you chose to build and what you explicitly deferred
+- [ ] **QA plan** lists runnable manual checks against the live demo (and automated checks if you built any)
 - [ ] **Bonus:** uses bball-GM's real validation API instead of mocks
+- [ ] **Bonus:** one automated browser test on the happy path
 
 ---
 
