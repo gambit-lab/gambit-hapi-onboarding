@@ -3,7 +3,7 @@
 **Author:** Ido Cohen, Gambit Labs  
 **Read in order:** Part 1 → Part 2 → Part 3 → Delivery
 
-This document is self-contained. Everything you need to understand the method, learn the tools, and complete the task is here or linked from Google Drive.
+This document is self-contained. Everything you need to understand the method, learn the tools, and complete the task is in this repository.
 
 ---
 
@@ -131,15 +131,20 @@ Before the task, get comfortable working with an AI coding partner and Git. Thes
 
 **Time box:** half a day. Don't try to master every feature — enough to start Part 3 with confidence.
 
-## Materials (Google Drive)
+## Materials (in this repo)
+
+Read in this order:
 
 1. **Git workshop presentation (start here)** — branches, commits, PRs, and working with AI on Git  
-   [Open on Google Drive](https://drive.google.com/file/d/1J44nMNAzl8HMVmuiODM_z6e6R_d0YcEM/view?usp=drive_link)
+   [`git-workshop.html`](./git-workshop.html) — open in a browser (`open git-workshop.html` on macOS)
 
-2. **Claude + Git learning guide** — Claude Projects, skills, git primer, workshop exercises  
-   [Open folder on Google Drive](https://drive.google.com/drive/folders/1bFv_qwcQq-zu169nDxlpamkyrvrk82BB?usp=sharing)
+2. **Claude + Git learning guide** — Claude Projects, skills, git primer, workshop replay  
+   [`gambit-claude-guide.md`](./gambit-claude-guide.md)
 
-3. **Anthropic's official course (recommended)** — Claude Code in Action  
+3. **Workshop exercises** — handouts, cheat sheet, sample repos to practice on  
+   [`claude-git-workshop/`](./claude-git-workshop/) — start with [`claude-git-workshop/09-student-syllabus.md`](./claude-git-workshop/09-student-syllabus.md) and [`claude-git-workshop/05-cheat-sheet.md`](./claude-git-workshop/05-cheat-sheet.md)
+
+4. **Anthropic's official course (recommended)** — Claude Code in Action  
    https://anthropic.skilljar.com/claude-code-in-action
 
 ## Minimum git reflexes before you start
@@ -154,6 +159,7 @@ Before the task, get comfortable working with an AI coding partner and Git. Thes
 - **Start in plan mode** for anything non-trivial — read-only until you approve direction
 - **Push back** — the first AI answer is a draft, not a deliverable
 - **Write decisions down** — context resets between sessions; plans belong in files, not chat history
+- **End every working session with a handoff file** — see `docs/end-of-session.md` in Delivery; this is how you pause mid-task and pick up with another model or agent later
 - **Use a Claude Project** for the onboarding task — upload this document and any reference material you gather
 
 ---
@@ -168,9 +174,7 @@ Before the task, get comfortable working with an AI coding partner and Git. Thes
 
 **Use the live site** — build a few trades yourself. The exercise is about the *interaction model*, not re-deriving trade rules.
 
-Optional background reading (public, no account required):
-- Use bball-GM's GUI hands-on at http://bball-gm.com
-- Their validation API is a plain `POST` with JSON — you can inspect network requests in browser devtools while building trades
+**Reference:** [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) — how bball-GM's API and GUI work (request/response schema, what the verdict UI shows). Read this before designing your chat interface.
 
 ### The exercise
 
@@ -184,24 +188,49 @@ Optional background reading (public, no account required):
 
 **North star:** the mouse becomes optional. The GUI stays a live visual mirror; conversation is primary.
 
+### What to think about (Human Thinking / Human Plan)
+
+This problem is **effectively endless** — full chat architecture, every edge case, production-grade explainability, automated QA at scale. **Don't try to boil the ocean.**
+
+Choose a **chat MVP that feels interesting to you** — one slice where you can show the **main concept** clearly. In your Human Plan, name what you're deliberately *not* building and why.
+
+At minimum, think through:
+
+| Lens | Questions to answer in your plan |
+|------|-------------------------------|
+| **Chat architecture** | How does a message become structured trade state? One LLM call per turn, tool use, state machine, something else? |
+| **Features** | What's in your MVP vs later? (e.g. two-team only, no picks, sign-and-trade out of scope) |
+| **Explainability** | When the user asks "why is this illegal?" — what do they see? Can they follow the reasoning without reading raw API JSON? |
+| **Traceability** | Can you reconstruct *what changed* after each chat turn? Is there a visible trail from "user said X" → "state updated Y" → "verdict Z"? |
+
+You don't need to solve all of this in code — but your design write-up and demo should make your choices **legible**. Gambit cares about products users can **trust and audit**, not black-box chat.
+
 ### How to run it (HAPI Flow)
 
 | Stage | You | AI |
 |-------|-----|-----|
 | Idea / Task | Accept this brief | — |
-| Human Thinking | Decide what "done" looks like; note 3 UX principles | Ask up to 5 clarifying questions before designing |
+| Human Thinking | Scope your chat MVP; note architecture, explainability, traceability | Ask up to 5 clarifying questions before designing |
 | Human Plan | Write your plan: scope, goal, acceptance criteria, out of scope | — |
 | AI Plan | Approve or correct | Propose architecture, stack, file layout, deployment approach |
 | AI Execute | Steer on edge cases (multi-team trades, illegal trades, chat/GUI desync) | Build the chat UI, state sync, and deployment config |
 | Human Guidance | Hold the quality bar — "show money math in chat", "don't hide illegal verdicts" | Iterate |
-| AI PR | Review | Open PR with Human Plan + AI Plan in the description |
-| Human Review & QA | Test the deployed app; review the PR diff | Address feedback |
+| *(session handoff)* | When pausing or switching agents: write `docs/end-of-session.md` | Use the handoff file to resume without re-explaining everything |
+| AI PR | Review | Open PR with Human Plan + AI Plan + end-of-session in the description |
+| Human Review & QA | Run your QA plan; test the deployed app; review the PR diff | Address feedback |
 | AI Deploy | Approve go-live | Deploy to your chosen free host |
 
 ### Out of scope
 
 - Building a trade-legality engine from scratch (use bball-GM's public API or mock validation for the prototype — this is the **interaction layer**)
 - Production-grade CBA rule coverage
+
+### Reference materials
+
+| Resource | Purpose |
+|----------|---------|
+| [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) | bball-GM API + GUI reference for the exercise |
+| [bball-GM.com](http://bball-gm.com) | Hands-on GUI experience |
 
 ---
 
@@ -229,8 +258,82 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 |----------|----------|---------|
 | **Human Plan** | `docs/human-plan.md` | Your goal, scope, acceptance criteria, UX principles — written *before* heavy AI execution |
 | **AI Plan** | `docs/ai-plan.md` | The implementation plan you approved (stack, files, risks, test approach) |
+| **End of session** | `docs/end-of-session.md` | Handoff snapshot of the human ↔ AI working session — so another agent/model can pick up where you left off |
+| **QA plan** | `docs/qa-plan.md` | How you would verify the app works — manual checks and/or automated browser-agent tests |
 | **Application code** | project root | The chat app source |
 | **README** | `README.md` | How to run locally, how you deployed, architecture overview, link to live demo |
+
+### `docs/end-of-session.md` — session handoff (required)
+
+Chat context disappears when a session ends. A new agent (or a different model) starts cold unless you **write the working session down**.
+
+This file is **not** a full chat transcript. It is a curated handoff — the minimum context needed to continue the task without archaeology. Update it whenever you pause meaningful work or finish a session; the final version is part of delivery.
+
+Include:
+
+- **Goal** — one sentence; link to Human Plan
+- **Current status** — what's done, what's in progress, what's blocked
+- **Key decisions** — choices you and the AI made during the session (and *why*)
+- **Human guidance given** — corrections, constraints, quality-bar calls ("not that", "keep X", "show Y in chat")
+- **Open questions** — unresolved design or implementation questions for the next session
+- **Where to continue** — files, branches, commands, deployed URL if any
+- **Do not regress** — things the next agent must not undo or reinterpret
+
+Think of it as **saving a task mid-flight** — the same way HAPI Flow treats plans as files, not chat memory.
+
+**Template:**
+
+```markdown
+# End of session — <date>
+
+## Goal
+<link to human-plan.md — one sentence>
+
+## Status
+- Done: …
+- In progress: …
+- Blocked: …
+
+## Key decisions (this session)
+- …
+
+## Human guidance given
+- …
+
+## Open questions
+- …
+
+## Continue from here
+- Branch: …
+- Files: …
+- Commands: …
+- Demo URL: …
+
+## Do not regress
+- …
+```
+
+### `docs/qa-plan.md` — how you would QA this (required)
+
+A **QA plan** is a written checklist of how to verify the product actually works in a running environment — not unit tests in isolation, but **does the deployed chat MVP behave correctly end-to-end?**
+
+At Gambit, QA plans gate shipping: humans own the quality bar; the plan says what "pass" looks like before you merge.
+
+Your plan should cover **both** (you can lean harder on one):
+
+| Approach | What it means | Example for this task |
+|----------|---------------|----------------------|
+| **Manual QA** | A human walks through the live demo with a checklist | "Type 'Boston gets Tatum for Butler' → GUI shows both teams → verdict appears in chat and panel → illegal trade shows violation text, not silent failure" |
+| **Automated QA (browser agent)** | A script or AI agent drives the browser and asserts outcomes | Playwright/Cypress test, or an agent that opens your deployed URL, sends chat messages, and checks DOM/state; note what you'd automate vs what still needs human judgment |
+
+Include in `docs/qa-plan.md`:
+
+- **Scope** — what your MVP claims to support (tie to Human Plan)
+- **Manual checks** — numbered steps a reviewer can run on your live URL; expected result for each
+- **Automated checks** (if any) — what you'd run in CI or locally; commands or pseudocode is fine
+- **Known gaps** — what you are *not* testing and why (honest scoping)
+
+You do **not** need a full CI pipeline — but you **do** need a credible plan. Bonus: ship one automated check that proves chat → state → GUI sync on a happy path.
 
 ### PR description template
 
@@ -244,6 +347,12 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 ## AI Plan summary
 <2-3 sentences>
 
+## Session handoff
+Point to `docs/end-of-session.md` — what state you left the work in
+
+## QA approach
+<manual vs automated — link to docs/qa-plan.md>
+
 ## What I learned about HAPI Flow
 <short reflection — what worked, what you'd do differently>
 
@@ -253,19 +362,23 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 
 ### Acceptance criteria
 
-- [ ] **Human Plan** and **AI Plan** committed as separate docs (shows you ran stages 3–4, not just vibe-coded)
+- [ ] **Human Plan**, **AI Plan**, **`docs/end-of-session.md`**, and **`docs/qa-plan.md`** committed as separate docs
 - [ ] **README** explains the project clearly enough for a stranger to run it
 - [ ] **Deployed URL** works — chat → state → GUI mirror → verdict in both places
 - [ ] **Design notes** in Human Plan or README cover:
   - Interaction model — what a chat turn does to state
   - Sync — how chat-state and GUI-state stay aligned
   - Output presentation — with **concrete examples** of a verdict rendered in chat
+  - **Explainability & traceability** — how users see *why* and *what changed*
+  - **MVP scope** — what you chose to build and what you explicitly deferred
+- [ ] **QA plan** lists runnable manual checks against the live demo (and automated checks if you built any)
 - [ ] **Bonus:** uses bball-GM's real validation API instead of mocks
+- [ ] **Bonus:** one automated browser test on the happy path
 
 ---
 
 ## Feedback
 
-If these materials helped — or didn't — we'd love to hear it. Add notes to the [Google Drive folder](https://drive.google.com/drive/folders/1bFv_qwcQq-zu169nDxlpamkyrvrk82BB?usp=sharing) or mention what was missing when you open your PR.
+If these materials helped — or didn't — we'd love to hear it. Mention what was missing when you open your PR.
 
 *Gambit Labs · HAPI Onboarding · 2026*
