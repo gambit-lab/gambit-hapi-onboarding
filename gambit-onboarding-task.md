@@ -3,7 +3,7 @@
 **Author:** Ido Cohen, Gambit Labs  
 **Read in order:** Part 1 → Part 2 → Part 3 → Delivery
 
-This document is self-contained. Everything you need to understand the method, learn the tools, and complete the task is here or linked from Google Drive.
+This document is self-contained. Everything you need to understand the method, learn the tools, and complete the task is in this repository.
 
 ---
 
@@ -131,15 +131,20 @@ Before the task, get comfortable working with an AI coding partner and Git. Thes
 
 **Time box:** half a day. Don't try to master every feature — enough to start Part 3 with confidence.
 
-## Materials (Google Drive)
+## Materials (in this repo)
+
+Read in this order:
 
 1. **Git workshop presentation (start here)** — branches, commits, PRs, and working with AI on Git  
-   [Open on Google Drive](https://drive.google.com/file/d/1J44nMNAzl8HMVmuiODM_z6e6R_d0YcEM/view?usp=drive_link)
+   [`git-workshop.html`](./git-workshop.html) — open in a browser (`open git-workshop.html` on macOS)
 
-2. **Claude + Git learning guide** — Claude Projects, skills, git primer, workshop exercises  
-   [Open folder on Google Drive](https://drive.google.com/drive/folders/1bFv_qwcQq-zu169nDxlpamkyrvrk82BB?usp=sharing)
+2. **Claude + Git learning guide** — Claude Projects, skills, git primer, workshop replay  
+   [`gambit-claude-guide.md`](./gambit-claude-guide.md)
 
-3. **Anthropic's official course (recommended)** — Claude Code in Action  
+3. **Workshop exercises** — handouts, cheat sheet, sample repos to practice on  
+   [`claude-git-workshop/`](./claude-git-workshop/) — start with [`claude-git-workshop/09-student-syllabus.md`](./claude-git-workshop/09-student-syllabus.md) and [`claude-git-workshop/05-cheat-sheet.md`](./claude-git-workshop/05-cheat-sheet.md)
+
+4. **Anthropic's official course (recommended)** — Claude Code in Action  
    https://anthropic.skilljar.com/claude-code-in-action
 
 ## Minimum git reflexes before you start
@@ -266,6 +271,6 @@ Fork or branch `gambit-hapi-onboarding` and open a PR containing:
 
 ## Feedback
 
-If these materials helped — or didn't — we'd love to hear it. Add notes to the [Google Drive folder](https://drive.google.com/drive/folders/1bFv_qwcQq-zu169nDxlpamkyrvrk82BB?usp=sharing) or mention what was missing when you open your PR.
+If these materials helped — or didn't — we'd love to hear it. Mention what was missing when you open your PR.
 
 *Gambit Labs · HAPI Onboarding · 2026*
