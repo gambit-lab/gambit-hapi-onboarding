@@ -51,15 +51,17 @@ gambit-hapi-onboarding/
 
 ## Delivery (for candidates)
 
+This repo is a **GitHub template**. Don't fork it — click **“Use this template” → “Create a new repository”**, keep it **public**, and do your work there. Open your PR **inside your own repo** (feature branch → your `main`) and send us the link. Do **not** open a PR against this repo.
+
 When you complete the task, submit:
 
 1. **Live demo** — LLM chat app deployed on a free host (Render, Railway, Vercel, etc.)
-2. **Pull request** to this repo with:
+2. **Pull request in your own repo** with:
    - `docs/human-plan.md` — your plan *before* heavy AI execution
-   - `docs/ai-plan.md` — the implementation plan you approved
+   - `docs/ai-plan.md` — the implementation plan you approved (include your harness + tool schema)
    - `docs/end-of-session.md` — handoff snapshot of the human ↔ AI working session (for resuming with another agent/model)
    - `docs/qa-plan.md` — how to verify the deployed app (manual + optional browser-agent automation)
-   - Application source code
+   - Application source code — an **LLM harness**: an agentic tool-calling loop, not a single prompt
    - `README.md` explaining how to run and deploy
 
 See **Delivery** in [`gambit-onboarding-task.md`](./gambit-onboarding-task.md) for full acceptance criteria.

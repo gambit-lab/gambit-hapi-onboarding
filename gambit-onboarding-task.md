@@ -188,6 +188,21 @@ Read in this order:
 
 **North star:** the mouse becomes optional. The GUI stays a live visual mirror; conversation is primary.
 
+### Required: build an LLM harness (agentic pipeline)
+
+This task is **not** a single prompt. The core of what we're evaluating is that you can build an **LLM harness** — an agentic pipeline that wraps the model API behind a **tool layer** — and route the natural-language understanding (NLU) through it.
+
+Concretely, your solution must:
+
+- **Wrap your LLM API calls in a harness you control** — one place all model calls go through, owning the system prompt, message history, and trade state. Not scattered raw SDK/`fetch` calls.
+- **Expose the trade-builder operations as tools the model calls** — e.g. `set_teams`, `add_player`, `add_pick`, `route_pick`, `request_verdict`. The model turns a user message into tool calls; *your* code executes them against the trade state.
+- **Do the NLU through the tool-calling loop** — natural language → structured trade intent happens via the model choosing tools, **not** hardcoded string parsing and **not** one mega-prompt that returns final JSON.
+- **Run an agentic loop** — model → tool call → tool result → model, repeating until the turn resolves (e.g. build the trade, call `request_verdict`, then explain the result in chat).
+
+**Why:** Gambit builds agentic products. We care that you can design a clean **harness + tools boundary** — the model reasons, your tools do the deterministic work — far more than whether you can write one clever prompt. This is the part we look at hardest.
+
+You may use any model provider and any harness/agent library (or hand-roll one) — the design of the tool boundary and loop is what matters, not the SDK.
+
 ### What to think about (Human Thinking / Human Plan)
 
 This problem is **effectively endless** — full chat architecture, every edge case, production-grade explainability, automated QA at scale. **Don't try to boil the ocean.**
@@ -198,7 +213,7 @@ At minimum, think through:
 
 | Lens | Questions to answer in your plan |
 |------|-------------------------------|
-| **Chat architecture** | How does a message become structured trade state? One LLM call per turn, tool use, state machine, something else? |
+| **Harness & tools** | What is your harness responsible for, and what tools do you expose? How does a message become tool calls that mutate trade state? How do you handle multi-step turns, tool errors, and the model asking for a verdict? *(A tool-calling agentic loop is required — see above.)* |
 | **Features** | What's in your MVP vs later? (e.g. two-team only, no picks, sign-and-trade out of scope) |
 | **Explainability** | When the user asks "why is this illegal?" — what do they see? Can they follow the reasoning without reading raw API JSON? |
 | **Traceability** | Can you reconstruct *what changed* after each chat turn? Is there a visible trail from "user said X" → "state updated Y" → "verdict Z"? |
@@ -212,17 +227,17 @@ You don't need to solve all of this in code — but your design write-up and dem
 | Idea / Task | Accept this brief | — |
 | Human Thinking | Scope your chat MVP; note architecture, explainability, traceability | Ask up to 5 clarifying questions before designing |
 | Human Plan | Write your plan: scope, goal, acceptance criteria, out of scope | — |
-| AI Plan | Approve or correct | Propose architecture, stack, file layout, deployment approach |
-| AI Execute | Steer on edge cases (multi-team trades, illegal trades, chat/GUI desync) | Build the chat UI, state sync, and deployment config |
+| AI Plan | Approve or correct | Propose the **harness + tool schema**, architecture, stack, file layout, deployment approach |
+| AI Execute | Steer on edge cases (multi-team trades, illegal trades, chat/GUI desync) | Build the **harness (tool-calling loop)**, NLU tools, chat UI, state sync, and deployment config |
 | Human Guidance | Hold the quality bar — "show money math in chat", "don't hide illegal verdicts" | Iterate |
 | *(session handoff)* | When pausing or switching agents: write `docs/end-of-session.md` | Use the handoff file to resume without re-explaining everything |
-| AI PR | Review | Open PR with Human Plan + AI Plan + end-of-session in the description |
+| AI PR | Review | Open PR *in your own repo* with Human Plan + AI Plan + end-of-session in the description |
 | Human Review & QA | Run your QA plan; test the deployed app; review the PR diff | Address feedback |
 | AI Deploy | Approve go-live | Deploy to your chosen free host |
 
 ### Out of scope
 
-- Building a trade-legality engine from scratch (use bball-GM's public API or mock validation for the prototype — this is the **interaction layer**)
+- Building a trade-legality engine from scratch (use bball-GM's public API or mock validation for the prototype — this is the **interaction layer**). Your `request_verdict` tool can delegate legality to bball-GM rather than reimplementing CBA rules — the harness wraps *your* pipeline, the tools do the deterministic work.
 - Production-grade CBA rule coverage
 
 ### Reference materials
@@ -250,9 +265,18 @@ Minimum behavior:
 
 Include the live URL in your PR description.
 
-## 2. Pull request to this repository
+## 2. Pull request — in your own repo (created from this template)
 
-Fork or branch `gambit-hapi-onboarding` and open a PR containing:
+**This repository is a GitHub _template_.** Do **not** fork it, and do **not** open a pull request against it. Instead, work in your own copy:
+
+1. On the repo page, click **“Use this template” → “Create a new repository.”** Give it your own name and keep it **public**.
+2. Clone *your* new repo and do all your work there, on a **feature branch** (never commit straight to `main`).
+3. Open a **pull request inside your own repo** — your feature branch → your repo's `main`.
+4. Send us the **link to that PR** (plus the live demo URL).
+
+> ⚠️ Work only in your own copy. Do **not** open a pull request against `gambit-lab/gambit-hapi-onboarding` — those will be closed. Each candidate works in isolation.
+
+Your PR should contain:
 
 | Artifact | Location | Purpose |
 |----------|----------|---------|
@@ -365,7 +389,9 @@ Point to `docs/end-of-session.md` — what state you left the work in
 - [ ] **Human Plan**, **AI Plan**, **`docs/end-of-session.md`**, and **`docs/qa-plan.md`** committed as separate docs
 - [ ] **README** explains the project clearly enough for a stranger to run it
 - [ ] **Deployed URL** works — chat → state → GUI mirror → verdict in both places
+- [ ] **LLM harness** — natural language becomes trade state through a **tool-calling agentic loop** (tools like `set_teams` / `add_player` / `route_pick` / `request_verdict`), **not** hardcoded parsing or a single JSON-returning prompt
 - [ ] **Design notes** in Human Plan or README cover:
+  - Harness & tools — the tool boundary you designed and how the agentic loop runs a turn
   - Interaction model — what a chat turn does to state
   - Sync — how chat-state and GUI-state stay aligned
   - Output presentation — with **concrete examples** of a verdict rendered in chat
