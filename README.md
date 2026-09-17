@@ -1,20 +1,60 @@
-# gambit-hapi-onboarding
+# Gambit onboarding
 
-Self-contained onboarding for **HAPI Flow** — Gambit's **Human & Artificial Planning Intelligence** workflow — plus a hands-on design/build exercise.
+How Gambit works, and how to start working here. Two tracks over one shared core.
 
-Built for candidates and collaborators outside the Gambit monorepo. Everything you need is in this repository.
+---
 
-## Start here
+## Start here, whichever track you are on
 
-| Order | File | What it is |
-|-------|------|------------|
-| 1 | [`gambit-onboarding-task.md`](./gambit-onboarding-task.md) | **Main brief** — HAPI vision, learning path, task, delivery requirements |
-| 2 | [`git-workshop.html`](./git-workshop.html) | Git workshop slides — open in a browser |
-| 3 | [`gambit-claude-guide.md`](./gambit-claude-guide.md) | Claude + Git learning guide |
-| 4 | [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) | bball-GM API + GUI reference — read before Part 3 |
-| 5 | [`claude-git-workshop/`](./claude-git-workshop/) | Workshop exercises, handouts, sample repos |
+| | |
+|---|---|
+| **[`core/01-how-we-work.md`](./core/01-how-we-work.md)** | The whole loop in one read — HAPI, the values, the stages, the AI PRD, and the rule that ties them together. ~15 min |
+| **[`core/02-reading-order.md`](./core/02-reading-order.md)** | What to read next, in what order, and how much of each |
 
-Read `gambit-onboarding-task.md` top to bottom. Use the other files during **Part 2** of that document.
+---
+
+## Then pick your track
+
+### Candidate
+
+You are doing the design-and-build exercise.
+
+**→ [`gambit-onboarding-task.md`](./gambit-onboarding-task.md)** — the brief, the learning
+materials, the task, and what to deliver.
+
+Everything you need is in this repository. The task is a chat-first interface over a trade-builder
+GUI, delivered as a live demo plus a pull request **in your own copy of this repo**.
+
+| Supporting material | |
+|---|---|
+| [`git-workshop.html`](./git-workshop.html) | Git + AI workshop slides — open in a browser |
+| [`gambit-claude-guide.md`](./gambit-claude-guide.md) | Claude + Git primer |
+| [`bball-gm-engine-teardown.md`](./bball-gm-engine-teardown.md) | API + GUI reference for the exercise |
+| [`claude-git-workshop/`](./claude-git-workshop/) | Workshop exercises, handouts, sample repos |
+
+> **This repository is a GitHub template.** Don't fork it. Click **"Use this template" → "Create a
+> new repository"**, keep it public, and do your work there. Open your pull request **inside your
+> own repo** — feature branch → your `main` — and send us the link. Do not open a PR against this
+> repository; those get closed.
+
+### Employee
+
+You've joined. This is day one through your first capability.
+
+**→ [`employee/README.md`](./employee/README.md)** — access, the repos, the first small thing you
+take all the way through, how the shared workspace works, and what "senior" looks like here.
+
+---
+
+## Why one repository for both
+
+The candidate exercise and the employee onboarding teach the same thing — the loop — and differ
+only in what you do with it. Keeping them apart meant two descriptions of how Gambit works, and two
+descriptions means one of them is out of date. `core/` is written once; both tracks point at it.
+
+**This repository is public.** Nothing in it names a customer, an environment, a credential or an
+internal URL. The employee track carries process and pointers; anything specific lives in the
+internal docs and the workspace.
 
 ## Quick open
 
@@ -22,55 +62,11 @@ Read `gambit-onboarding-task.md` top to bottom. Use the other files during **Par
 git clone https://github.com/gambit-lab/gambit-hapi-onboarding.git
 cd gambit-hapi-onboarding
 
-# Slides (macOS)
-open git-workshop.html
-
-# Or serve locally if your browser blocks file:// assets
-python3 -m http.server 8080
-# then open http://localhost:8080/git-workshop.html
+open git-workshop.html          # slides (macOS)
+# or serve locally if your browser blocks file:// assets
+python3 -m http.server 8080     # then http://localhost:8080/git-workshop.html
 ```
-
-## What's in this repo
-
-```
-gambit-hapi-onboarding/
-├── README.md                    ← you are here
-├── gambit-onboarding-task.md    ← full onboarding brief (HAPI + task + delivery)
-├── bball-gm-engine-teardown.md  ← bball-GM API + GUI reference for the exercise
-├── git-workshop.html            ← Git + AI workshop presentation
-├── gambit-claude-guide.md       ← Claude Code + Git primer
-└── claude-git-workshop/         ← workshop materials (handouts, sample apps, exercises)
-    ├── README.md
-    ├── 05-cheat-sheet.md
-    ├── 07-pre-flight-setup-guide.md
-    ├── 09-student-syllabus.md
-    ├── handouts/
-    ├── sample-repo/
-    └── streakkeeper/
-```
-
-## Delivery (for candidates)
-
-This repo is a **GitHub template**. Don't fork it — click **“Use this template” → “Create a new repository”**, keep it **public**, and do your work there. Open your PR **inside your own repo** (feature branch → your `main`) and send us the link. Do **not** open a PR against this repo.
-
-When you complete the task, submit:
-
-1. **Live demo** — LLM chat app deployed on a free host (Render, Railway, Vercel, etc.)
-2. **Pull request in your own repo** with:
-   - `docs/human-plan.md` — your plan *before* heavy AI execution
-   - `docs/ai-plan.md` — the implementation plan you approved (include your harness + tool schema)
-   - `docs/end-of-session.md` — handoff snapshot of the human ↔ AI working session (for resuming with another agent/model)
-   - `docs/qa-plan.md` — how to verify the deployed app (manual + optional browser-agent automation)
-   - Application source code — an **LLM harness**: an agentic tool-calling loop, not a single prompt
-   - `README.md` explaining how to run and deploy
-
-See **Delivery** in [`gambit-onboarding-task.md`](./gambit-onboarding-task.md) for full acceptance criteria.
-
-## External links
-
-- [bball-GM.com](http://bball-gm.com) — reference trade-builder GUI for the exercise
-- [Claude Code in Action](https://anthropic.skilljar.com/claude-code-in-action) — Anthropic's free course (recommended)
 
 ---
 
-*Gambit Labs · 2026*
+*Gambit Labs · HAPI onboarding*

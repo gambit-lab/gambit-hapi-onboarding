@@ -9,121 +9,26 @@ This document is self-contained. Everything you need to understand the method, l
 
 # Part 1 — The HAPI Flow
 
-## Why this exists
+**Read [`core/01-how-we-work.md`](./core/01-how-we-work.md) — all of it, about fifteen minutes.**
 
-Gambit builds AI products to improve team building and shared decision-making for organizations. That only works if people have a shared model for how humans and AI work together — not as a novelty, but as the operating system for how we ship.
+It is the single description of how Gambit works, shared by this onboarding task and by the
+employee onboarding, so the two can never drift apart. It covers:
 
-We believe the future of product teams is not "humans vs. AI" or "AI replaces humans." It is **Human & Artificial Planning Intelligence** — humans owning judgment and quality, AI owning the heavy lifting in between. We call this the **HAPI Flow**.
+- **HAPI** — Human & Artificial Planning Intelligence: humans own judgment and the quality bar,
+  AI owns the heavy lifting in between, and *why* that division exists rather than being a slogan
+- The **stages** a unit of work moves through, and who leads each
+- **One document, three stages** — Human Plan → AI Plan → Release Doc, and why the Human Plan
+  freezes
+- The **AI PRD** — the six required sections, and why the does-NOTs are the ones that matter
+- **The rule that ties it together:** AI drafts fast, you audit, and a spec is done when the agent
+  has nothing left to guess
+- **Archetypes** — Prototyper, Builder, Sweeper, Grower, Maintainer
+- When an agent should **stop and ask**
 
-## The pipeline
+The rest of this document is the task itself. It assumes you have read that.
 
-> **Idea/Task → Human Thinking → Human Plan → AI Plan → AI Execute → Human Guidance → AI PR → AI Review → Human Review & QA → AI Deploy**
-
-**Humans own thinking, direction, and the quality bar.**  
-**AI owns the heavy lifting in between.**
-
-Fast iteration, clear plans, and real end-to-end checks are what make **fast delivery — with human and AI quality** — possible. Speed without the quality bar is just noise. Quality without speed is a team that can't learn.
-
-## The 10 stages
-
-Each stage below is the guide. Read the *what it means* — that is where judgment lives. **Who leads** is a one-line reminder of ownership, not the point.
-
----
-
-### 1. Idea / Task
-*Team*
-
-A problem worth solving surfaces — from a customer call, a competitive insight, a bug, or a design question. Capture it with enough context that someone picking it up cold understands the *why*, not just the *what*. If you cannot state the problem in one sentence, you are not ready to plan.
-
----
-
-### 2. Human Thinking
-*Human*
-
-Frame the problem before anyone touches a keyboard. Decide what we are building and why — product judgment, architecture calls, trade-offs. Make sure you understand both the problem *and* the solution direction you are offering. This stage is where human expertise is irreplaceable: the AI will execute brilliantly on a wrong frame.
-
----
-
-### 3. Human Plan
-*Human*
-
-Set scope, acceptance criteria, and priorities *before* code. The human plan is the contract. **A clear Goal is the most important part** — without it, the AI will confidently lead you somewhere else. Your human expertise matters most here. Ask yourself: *why am I the right person to plan this?* What do I know that the agent does not? Write that down.
-
----
-
-### 4. AI Plan
-*AI — human approves*
-
-Turn the contract into an implementation plan: files, steps, risks, test commands. The agent proposes; you approve or correct. Make sure your expertise from Human Plan is passed to the agent in a form it can use — context docs, constraints, examples of what "done" looks like. Never skip approval; an unreviewed AI plan is a plan you did not own.
-
----
-
-### 5. AI Execute
-*AI — human steers*
-
-Write code, docs, prototypes — on a branch, against the approved plan. This is where throughput happens. Stay available: execution without steering drifts. You are not watching for mistakes only; you are watching for *goal drift*.
-
----
-
-### 6. Human Guidance
-*Human*
-
-Course-correct in real time. "Not that." "Keep the regression test." "Route the pick to Boston instead." Follow the goal you set in Human Plan — do not let a clever implementation pull you off course. Guidance is not micromanagement; it is holding the quality bar and the direction while the agent moves fast.
-
----
-
-### 7. AI PR
-*AI*
-
-Test. Commit. Open the pull request. Populate the description with the Human Plan, the AI Plan, and the Goal — so reviewers inherit the full thread without an archaeology session. A PR without context is a PR someone else has to reverse-engineer.
-
----
-
-### 8. AI Review
-*AI*
-
-Address review threads, summarize what changed, re-run checks. The agent does the tedious loop; you decide when the loop is done. AI Review prepares the work for human judgment — it does not replace it.
-
----
-
-### 9. Human Review & QA
-*Human*
-
-Approve the merge. Run sanity and integration checks. Own the quality gate. If something feels wrong but you cannot name it, that is a signal to pause — not to merge and hope. This stage is non-delegable.
-
----
-
-### 10. AI Deploy
-*AI — human gates*
-
-Build, deploy, smoke-test — when the human says go. Automation handles the steps; the human holds the trigger. Shipping is a decision, not a side effect of green checks.
-
----
-
-## How we think about roles
-
-Job titles don't define how you work. **Archetypes** do:
-
-| Archetype | What you do |
-|-----------|-------------|
-| **Prototyper** | Explore brand-new ideas; many drafts, most don't ship |
-| **Builder** | Turn a prototype or spec into production-grade product or infra, fast |
-| **Sweeper** | Simplify, unship, optimize — make the system smaller and clearer |
-| **Grower** | Iterate on shipped product to improve product-market fit |
-| **Maintainer** | Keep mature systems secure, reliable, and fast at scale |
-
-Most people span two or three archetypes. A healthy team needs a mix — and the mix shifts as the product matures.
-
-**This onboarding task is Prototyper work** — explore boldly. The deliverable informs direction; it does not have to ship verbatim to production.
-
-## What we believe
-
-1. **Humans set direction; AI scales execution.** The quality bar is human. The throughput is AI-assisted.
-2. **Plans before code.** Human Plan and AI Plan are separate stages for a reason. Skipping planning is how teams lose the thread.
-3. **Real QA, not checkbox QA.** Exercise the running system — not just unit tests.
-4. **Honest about the gap.** Name what's real today and what's still maturing. Vision without honesty is marketing.
-
----
+> **This exercise is Prototyper work** — explore boldly. The deliverable informs direction; it does
+> not have to ship verbatim to production.
 
 # Part 2 — Claude + Git learning primer
 
